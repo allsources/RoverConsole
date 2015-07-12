@@ -13,7 +13,15 @@ Tasks sorted by priority from high to low.
 	* Add AngularJS to the web-app.
 	* TBD: Implement Rover object.
 	* TBD: Add navigation module to the Rover, with Scan and Move command.
+		- execute command in own thread (?)
+		- reject command when Rover busy or adding to command queue (?)
+		- command execution delay (?)
+		- scan delay (?)
 	* TBD: Implement log rover movement to the ConsoleMonitor web-app.
+		- draw map
+		- draw rover
+	* Implement ConsoleMonitor as a console app.
+	* Add https.
 
 ### COMPLETED TASKS
 
