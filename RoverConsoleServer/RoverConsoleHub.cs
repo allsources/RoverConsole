@@ -38,7 +38,10 @@ namespace RoverConsoleServer
     [CustomAuthorize]
     public void SendCommand(ConsoleCommand command)
     {
-      ProcessConsoleMessage(string.Format("command: {0} {1}", command.Name, string.Join(" ", command.Arguments)));
+      ProcessConsoleMessage(
+        string.Format("command: {0} {1}",
+          command.Name.ToString().ToLower(),
+          string.Join(" ", command.Arguments)));
     }
 
     #endregion "CUSTOM HUB METHODS"
