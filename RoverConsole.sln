@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoverConsoleServer", "RoverConsoleServer\RoverConsoleServer.csproj", "{17B66214-0F42-4CE5-8D4E-7915085794B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoverConsoleClient", "RoverConsoleClient\RoverConsoleClient.csproj", "{C799A507-CE8D-4634-B498-EEF4BF585563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoverMonitor", "RoverMonitor\RoverMonitor.csproj", "{6FBCBB11-433E-4659-8A99-F1A351992686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoverConsole", "RoverConsole\RoverConsole.csproj", "{80505F99-1998-461D-8E24-81447E5C3EAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoverConsoleTests", "RoverConsoleTests\RoverConsoleTests.csproj", "{932C2124-F163-49C0-9C35-2E8E106AA80A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{4E2C7188-7038-4F01-824B-AA69672A7EAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17B66214-0F42-4CE5-8D4E-7915085794B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B66214-0F42-4CE5-8D4E-7915085794B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B66214-0F42-4CE5-8D4E-7915085794B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B66214-0F42-4CE5-8D4E-7915085794B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C799A507-CE8D-4634-B498-EEF4BF585563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C799A507-CE8D-4634-B498-EEF4BF585563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C799A507-CE8D-4634-B498-EEF4BF585563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C799A507-CE8D-4634-B498-EEF4BF585563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBCBB11-433E-4659-8A99-F1A351992686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBCBB11-433E-4659-8A99-F1A351992686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBCBB11-433E-4659-8A99-F1A351992686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBCBB11-433E-4659-8A99-F1A351992686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80505F99-1998-461D-8E24-81447E5C3EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80505F99-1998-461D-8E24-81447E5C3EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80505F99-1998-461D-8E24-81447E5C3EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80505F99-1998-461D-8E24-81447E5C3EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{932C2124-F163-49C0-9C35-2E8E106AA80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932C2124-F163-49C0-9C35-2E8E106AA80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932C2124-F163-49C0-9C35-2E8E106AA80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932C2124-F163-49C0-9C35-2E8E106AA80A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{932C2124-F163-49C0-9C35-2E8E106AA80A} = {4E2C7188-7038-4F01-824B-AA69672A7EAC}
+	EndGlobalSection
+EndGlobal
