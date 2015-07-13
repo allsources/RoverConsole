@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>RoverMonitor</title>
+  <link type="text/css" rel="stylesheet" href="./content/css/style.css">
+</head>
+<body>
+  <div class="pageWrapper">
+    <div class="mapWrapper"></div>
+    <div class="commandLogWrapper">
+      <h5>COMMANDS</h5>
+      <ul id="commandLogItems"></ul>
+    </div>
+  </div>
+
+  <script src="./scripts/jquery-1.6.4.min.js"></script>
+  <script src="./scripts/jquery.signalR-2.2.0.min.js"></script>
+  <script src="http://localhost:8088/signalr/hubs/" type="text/javascript"></script>
+  <script src="./content/js/roverMonitor.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      var roverConsoleHub = $.connection.roverConsoleHub;
+      roverConsoleHub.client.msgToLog = function (msg) {
+        var $timeStamp = $('<DIV></DIV>').addClass('timeStamp').html(msg.TimeStamp);
+        var $username = $('<DIV></DIV>').addClass('username').html(msg.Username);
+        var $text = $('<DIV></DIV>').addClass('text').html(msg.Text);
+        $('<LI/>')
+          .append($timeStamp).append($username).append($text)
+          .prependTo($('#commandLogItems'));
+      };
+      $.connection.hub.url = 'http://localhost:8088/signalr';
+      $.connection.hub.start()
+        .done(function () {
+        })
+        .fail(function (error) {
+        });
+      });
+  </script>
+</body>
+</html>

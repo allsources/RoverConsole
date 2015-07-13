@@ -58,10 +58,15 @@ namespace RoverConsoleServer
 
     private void ProcessConsoleMessage(string msg)
     {
-      Console.WriteLine("{0} {1}\t{2}",
+      var msgToLog = new ConsoleLogMessage(GetUsername(), msg);
+      /*
+      string msgToLog = string.Format("{0} {1}\t{2}",
         DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
         GetUsername(),
         msg);
+      */
+      Console.WriteLine("{0} {1}\t{2}", msgToLog.TimeStamp, msgToLog.Username, msgToLog.Text);
+      Clients.Others.msgToLog(msgToLog);
     }
 
     #endregion "PRIVATE METHODS"
