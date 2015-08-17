@@ -2,6 +2,7 @@
 using Microsoft.AspNet.SignalR.Hubs;
 using RoverConsole.Classes;
 using RoverConsole.Constants;
+using RoverConsole.Enums;
 using System;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -11,23 +12,31 @@ namespace RoverConsoleServer
 {
   public class RoverConsoleHub : Hub
   {
+    #region "PRIVATE MEMBERS"
+
+    private string _roverConnectionId;
+
+    #endregion "PRIVATE MEMBERS"
+
     #region "OVERRIDE HUB METHODS"
 
     public override Task OnConnected()
     {
-      ProcessConsoleMessage("connected");
+      BroadcastConsoleMessage(ConsoleConnectionStatus.Connected);
+      if (IsRoverConnected())
+        SetRoverConnectionId();
       return base.OnConnected();
     }
 
     public override Task OnDisconnected(bool stopCalled)
     {
-      ProcessConsoleMessage("disconnected");
+      BroadcastConsoleMessage(ConsoleConnectionStatus.Disconnected);
       return base.OnDisconnected(stopCalled);
     }
 
     public override Task OnReconnected()
     {
-      ProcessConsoleMessage("reconnected");
+      BroadcastConsoleMessage(ConsoleConnectionStatus.Reconnected);
       return base.OnReconnected();
     }
 
@@ -38,10 +47,11 @@ namespace RoverConsoleServer
     [CustomAuthorize]
     public void SendCommand(ConsoleCommand command)
     {
-      ProcessConsoleMessage(
+      BroadcastConsoleMessage(
         string.Format("command: {0} {1}",
           command.Name.ToString().ToLower(),
           string.Join(" ", command.Arguments)));
+      SendCommandToRover(command);
     }
 
     #endregion "CUSTOM HUB METHODS"
@@ -56,17 +66,33 @@ namespace RoverConsoleServer
           : ConsoleConstants.AnonymousUserName;
     }
 
-    private void ProcessConsoleMessage(string msg)
+    private void BroadcastConsoleMessage(ConsoleConnectionStatus connectionStatus)
+    {
+      BroadcastConsoleMessage(connectionStatus.ToString());
+    }
+
+    private void BroadcastConsoleMessage(string msg)
     {
       var msgToLog = new ConsoleLogMessage(GetUsername(), msg);
-      /*
-      string msgToLog = string.Format("{0} {1}\t{2}",
-        DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
-        GetUsername(),
-        msg);
-      */
       Console.WriteLine("{0} {1}\t{2}", msgToLog.TimeStamp, msgToLog.Username, msgToLog.Text);
       Clients.Others.msgToLog(msgToLog);
+    }
+
+    private bool IsRoverConnected()
+    {
+      return
+        GetUsername().Equals(ConsoleConstants.RoverUserName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void SetRoverConnectionId()
+    {
+      _roverConnectionId = Context != null ? Context.ConnectionId : string.Empty;
+    }
+
+    private void SendCommandToRover(ConsoleCommand command)
+    {
+      if (!string.IsNullOrWhiteSpace(_roverConnectionId))
+        Clients.Client(_roverConnectionId).RoverRequest(command);
     }
 
     #endregion "PRIVATE METHODS"

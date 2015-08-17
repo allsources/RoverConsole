@@ -20,7 +20,13 @@ namespace RoverConsole.Constants
 
     public const string Port = "port";
 
+    public const string RoverResponse = "RoverResponse";
+
+    public const string RoverUserName = "Rover";
+
     public const string SendCommand = "SendCommand";
+
+    public const string Token = "Token";
 
     public const string Username = "username";
   }

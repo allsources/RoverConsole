@@ -33,7 +33,7 @@ namespace RoverConsoleClient
       if (concoleCommands == null)
         return false;
 
-      ConsoleConnection connection = InitializeConnection();
+      ConsoleClientCommunicator connection = InitializeCommunicator();
       if (connection == null)
         return false;
 
@@ -53,14 +53,14 @@ namespace RoverConsoleClient
       return console;
     }
 
-    static ConsoleConnection InitializeConnection()
+    static ConsoleClientCommunicator InitializeCommunicator()
     {
       Console.Write("Initialize connection... ");
 
       string hubUrl = ConfigurationManager.AppSettings["HubURL"];
       string hubName = ConfigurationManager.AppSettings["HubName"];
 
-      var connection = new ConsoleConnection(hubUrl, hubName);
+      var connection = new ConsoleClientCommunicator(hubUrl, hubName);
 
       Console.WriteLine(connection != null ? "DONE" : "FAIL");
 

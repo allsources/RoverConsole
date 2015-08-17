@@ -13,22 +13,10 @@ namespace RoverConsoleServer.Classes
 
     public static void Login(IOwinContext context)
     {
-      Task<IFormCollection> task = context.Request.ReadFormAsync();
-      task.Wait();
-
-      if (task.Result == null)
-        return;
-
-      string username = task.Result[ConsoleConstants.Username];
-      string password = task.Result[ConsoleConstants.Password];
-
-      if (!ValidateUser(username, password))
-        return;
-
-      var claims = new List<Claim>();
-      claims.Add(new Claim(ClaimTypes.Name, username));
-      var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-      context.Authentication.SignIn(identity);
+      string username;
+      if (AuthenticateByToken(context, out username) ||
+          AuthenticateByCredentials(context, out username))
+        CreateAuthCookie(context, username);
     }
 
     public static Task Logout(IOwinContext context)
@@ -39,7 +27,68 @@ namespace RoverConsoleServer.Classes
 
     #endregion "PUBLIC METHODS"
 
-    #region "PRIVATE METHODS"
+    #region "AUTHENTICATE BY TOKEN"
+
+    private static bool AuthenticateByToken(IOwinContext context, out string username)
+    {
+      username = null;
+
+      string token = GetToken(context);
+
+      return
+        !string.IsNullOrWhiteSpace(token) &&
+        ValidateUser(token, out username);
+    }
+
+    private static string GetToken(IOwinContext context)
+    {
+      return
+        context.Request.Headers != null
+          ? context.Request.Headers[ConsoleConstants.Token]
+          : null;
+    }
+    
+    private static bool ValidateUser(string token, out string username)
+    {
+      var tokens =
+        new Dictionary<string, string>
+        {
+          { "1234567890", ConsoleConstants.RoverUserName },
+        };
+
+      username = tokens[token];
+
+      return
+        tokens.ContainsKey(token);
+    }
+
+    #endregion "AUTHENTICATE BY TOKEN"
+
+    #region "AUTHENTICATE BY CREDENTIALS"
+
+    private static bool AuthenticateByCredentials(IOwinContext context, out string username)
+    {
+      string password;
+      GetCredentials(context, out username, out password);
+
+      return
+        !string.IsNullOrWhiteSpace(username) &&
+        ValidateUser(username, password);
+    }
+
+    private static void GetCredentials(IOwinContext context, out string username, out string password)
+    {
+      username = password = null;
+
+      Task<IFormCollection> task = context.Request.ReadFormAsync();
+      task.Wait();
+
+      if (task.Result == null)
+        return;
+
+      username = task.Result[ConsoleConstants.Username];
+      password = task.Result[ConsoleConstants.Password];
+    }
 
     private static bool ValidateUser(string username, string password)
     {
@@ -54,6 +103,18 @@ namespace RoverConsoleServer.Classes
       return
         users.Contains(username) &&
         !string.IsNullOrWhiteSpace(password);
+    }
+
+    #endregion "AUTHENTICATE BY CREDENTIALS"
+
+    #region "PRIVATE METHODS"
+
+    private static void CreateAuthCookie(IOwinContext context, string username)
+    {
+      var claims = new List<Claim>();
+      claims.Add(new Claim(ClaimTypes.Name, username));
+      var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+      context.Authentication.SignIn(identity);
     }
 
     #endregion "PRIVATE METHODS"

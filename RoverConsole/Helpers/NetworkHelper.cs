@@ -1,16 +1,23 @@
 ﻿using RoverConsole.Loggers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 
-namespace RoverConsoleClient.Helpers
+namespace RoverConsole.Helpers
 {
   public static class NetworkHelper
   {
     #region "PUBLIC METHODS"
 
-    public static HttpWebResponse Post(Uri uri, string data)
+    public static HttpWebResponse Post(Uri uri)
+    {
+      return
+        Post(uri, new KeyValuePair<string, string>(), string.Empty, false);
+    }
+
+    public static HttpWebResponse Post(Uri uri, KeyValuePair<string, string> header, string data, bool waitResponse)
     {
       try
       {
@@ -19,17 +26,20 @@ namespace RoverConsoleClient.Helpers
         request.ContentType = "application/x-www-form-urlencoded";
         request.CookieContainer = new CookieContainer();
 
+        if (!string.IsNullOrWhiteSpace(header.Key))
+          request.Headers.Add(header.Key, header.Value);
+
         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(data);
-        request.ContentLength = bytes.Length;
+        request.ContentLength = bytes != null ? bytes.Length : 0;
         using (Stream requestStream = request.GetRequestStream())
         {
           requestStream.Write(bytes, 0, bytes.Length);
         }
 
         return
-          string.IsNullOrWhiteSpace(data)
-            ? null
-            : request.GetResponse() as HttpWebResponse;
+          waitResponse
+            ? request.GetResponse() as HttpWebResponse
+            : null;
       }
       catch(Exception ex)
       {

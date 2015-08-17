@@ -9,7 +9,7 @@ namespace RoverConsoleClient.Classes
   {
     #region "PRIVATE MEMBERS"
 
-    private ConsoleConnection _connection;
+    private ConsoleClientCommunicator _communicator;
 
     private ConsoleCommand _command;
 
@@ -23,10 +23,10 @@ namespace RoverConsoleClient.Classes
 
     #region ".ctor"
 
-    public ConsoleClient(ConsoleCommands commands, ConsoleConnection connection)
+    public ConsoleClient(ConsoleCommands commands, ConsoleClientCommunicator communicator)
     {
       _commands = commands;
-      _connection = connection;
+      _communicator = communicator;
     }
 
     #endregion ".ctor"
@@ -115,7 +115,7 @@ namespace RoverConsoleClient.Classes
 
     private void ExecuteExternal()
     {
-      Console.WriteLine(_connection.Send(_command));
+      Console.WriteLine(_communicator.Send(_command));
     }
 
     #endregion "EXECUTE COMMAND"
@@ -131,24 +131,24 @@ namespace RoverConsoleClient.Classes
         Console.WriteLine("Username is empty or invalid.");
         return;
       }
-      Console.WriteLine(_connection.Login(username.ToLower(), "pwd"));
-      _connection.Reconnect();
+      Console.WriteLine(_communicator.Login(username.ToLower(), "pwd"));
+      _communicator.Reconnect();
     }
 
     private void Logout()
     {
       Disconnect();
-      Console.WriteLine(_connection.Logout());
+      Console.WriteLine(_communicator.Logout());
     }
 
     private void Connect()
     {
-      Console.WriteLine(_connection.Connect());
+      Console.WriteLine(_communicator.Connect());
     }
 
     private void Disconnect()
     {
-      Console.WriteLine(_connection.Disconnect());
+      Console.WriteLine(_communicator.Disconnect());
     }
 
     private void DisplayHelp()

@@ -30,8 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\NuGetPackages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\NuGetPackages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,16 +51,23 @@
   <ItemGroup>
     <Compile Include="Classes\ConsoleCommand.cs" />
     <Compile Include="Classes\ConsoleCommandConfig.cs" />
+    <Compile Include="Classes\ConsoleConnection.cs" />
     <Compile Include="Classes\ConsoleLogMessage.cs" />
     <Compile Include="Classes\ConsoleUser.cs" />
     <Compile Include="Constants\ConsoleConstants.cs" />
     <Compile Include="Enums\CommandCall.cs" />
     <Compile Include="Enums\CommandValidationStatus.cs" />
     <Compile Include="Enums\CommandName.cs" />
+    <Compile Include="Enums\ConsoleConnectionStatus.cs" />
+    <Compile Include="Enums\RoverStatus.cs" />
+    <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
